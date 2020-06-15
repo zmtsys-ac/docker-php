@@ -52,6 +52,7 @@ RUN set -eux; \
     make && make install; \
     cd -; \
   docker-php-ext-install -j$(nproc) \
+    bcmath \
     bz2 \
     curl \
     fileinfo \
