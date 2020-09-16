@@ -83,6 +83,11 @@ RUN set -eux; \
   php --version \
   ;
 
+#Security changes
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
+  ; sed -i "s|^expose_php\s*=\s*\(.*\)|expose_php=Off|g" /usr/local/etc/php/php.ini \
+  ;
+
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html

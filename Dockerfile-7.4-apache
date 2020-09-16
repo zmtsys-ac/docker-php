@@ -91,6 +91,14 @@ RUN set -eux; \
     rewrite \
   ;
 
+#Security changes
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
+  ; sed -i "s|^expose_php\s*=\s*\(.*\)|expose_php=Off|g" /usr/local/etc/php/php.ini \
+  ; sed -i "s|^ServerSignature\(.*\)|ServerSignature Off|g" /etc/apache2/conf-enabled/security.conf \
+  ; sed -i "s|^ServerTokens\(.*\)|ServerTokens Prod|g" /etc/apache2/conf-enabled/security.conf \
+  ; sed -i "s|\(^LogFormat \"\)\(.*\)\( combined\)|\1%{X-Forwarded-For}i \2\3|g" /etc/apache2/apache2.conf \
+  ;
+
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
