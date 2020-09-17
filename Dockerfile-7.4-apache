@@ -96,7 +96,8 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
   ; sed -i "s|^expose_php\s*=\s*\(.*\)|expose_php=Off|g" /usr/local/etc/php/php.ini \
   ; sed -i "s|^ServerSignature\(.*\)|ServerSignature Off|g" /etc/apache2/conf-enabled/security.conf \
   ; sed -i "s|^ServerTokens\(.*\)|ServerTokens Prod|g" /etc/apache2/conf-enabled/security.conf \
-  ; sed -i "s|\(^LogFormat \"\)\(.*\)\( combined\)|\1%{X-Forwarded-For}i \2\3|g" /etc/apache2/apache2.conf \
+  ; echo "LogFormat \"\\\"%{X-Forwarded-For}i %h\\\" %l %u %t \\\"%r\\\" %>s %O \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" combined" > /etc/apache2/conf-available/log_combined.conf \
+  ; a2enconf log_combined \
   ;
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
