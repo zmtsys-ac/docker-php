@@ -11,7 +11,11 @@ RUN set -eux; \
     imagemagick \
     libcmph0 \
     libedit2 \
+    libhashkit2 \
     libjpeg62-turbo \
+    libmemcached11 \
+    libmemcachedutil2 \
+    libmsgpackc2 \
     libpng16-16 \
     libsodium23 \
     libzip4 \
@@ -29,6 +33,8 @@ RUN set -eux; \
     libjpeg-dev \
     libjpeg62-turbo-dev \
     libmagickwand-dev \
+    libmemcached-dev \
+    libmsgpack-dev \
     libpng-dev \
     libsodium-dev \
     libssl-dev \
@@ -44,11 +50,18 @@ RUN set -eux; \
   pecl install apcu \
     && pecl install igbinary \
     && pecl install imagick \
+    && pecl install msgpack \
     ; \
   pecl install --onlyreqdeps --nobuild redis; \
     cd "$(pecl config-get temp_dir)/redis"; \
     phpize; \
-    ./configure --enable-redis-igbinary; \
+    ./configure --enable-redis-igbinary --enable-redis-json --enable-redis-msgpack; \
+    make && make install; \
+    cd -; \
+  pecl install --onlyreqdeps --nobuild memcached; \
+    cd "$(pecl config-get temp_dir)/memcached"; \
+    phpize; \
+    ./configure --enable-memcached-igbinary --enable-memcached-json --enable-memcached-session --enable-memcached-sasl --enable-memcached-msgpack; \
     make && make install; \
     cd -; \
   docker-php-ext-install -j$(nproc) \
@@ -71,6 +84,7 @@ RUN set -eux; \
     apcu \
     igbinary \
     imagick \
+    msgpack \
     intl \
     opcache \
     redis \
