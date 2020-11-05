@@ -9,6 +9,7 @@ RUN set -eux; \
     curl \
     git \
     imagemagick \
+    libbrotli1 \
     libcmph0 \
     libhashkit2 \
     libjpeg62-turbo \
@@ -25,6 +26,7 @@ RUN set -eux; \
   apt-get install -y --no-install-recommends \
     $PHPIZE_DEPS \
     gettext-base \
+    libbrotli-dev \
     libcmph-dev \
     libcurl4-openssl-dev \
     libedit-dev \
@@ -51,6 +53,12 @@ RUN set -eux; \
     && pecl install imagick \
     && pecl install msgpack \
     ; \
+  git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
+    cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
+    phpize; \
+    ./configure --with-libbrotli; \
+    make && make install; \
+    cd -; \
   pecl install --onlyreqdeps --nobuild redis; \
     cd "$(pecl config-get temp_dir)/redis"; \
     phpize; \
@@ -81,6 +89,7 @@ RUN set -eux; \
     ; \
   docker-php-ext-enable \
     apcu \
+    brotli \
     igbinary \
     imagick \
     msgpack \
