@@ -108,6 +108,8 @@ RUN set -eux; \
 #Security changes
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
   ; sed -i "s|^expose_php\s*=\s*\(.*\)|expose_php=Off|g" /usr/local/etc/php/php.ini \
+  ; sed -i "s|^\(;\)*realpath_cache_ttl\s*=\s*\(.*\)|realpath_cache_ttl=3600|g" /usr/local/etc/php/php.ini \
+  ; sed -i "s|^\(;\)*zlib.output_compression\s*=\s*\(.*\)|zlib.output_compression=On|g" /usr/local/etc/php/php.ini \
   ; sed -i "s|^ServerSignature\(.*\)|ServerSignature Off|g" /etc/apache2/conf-enabled/security.conf \
   ; sed -i "s|^ServerTokens\(.*\)|ServerTokens Prod|g" /etc/apache2/conf-enabled/security.conf \
   ; echo "LogFormat \"\\\"%{X-Forwarded-For}i %h\\\" %l %u %t \\\"%r\\\" %>s %O \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" combined" > /etc/apache2/conf-available/log_combined.conf \

@@ -100,6 +100,8 @@ RUN set -eux; \
 #Security changes
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
   ; sed -i "s|^expose_php\s*=\s*\(.*\)|expose_php=Off|g" /usr/local/etc/php/php.ini \
+  ; sed -i "s|^\(;\)*realpath_cache_ttl\s*=\s*\(.*\)|realpath_cache_ttl=3600|g" /usr/local/etc/php/php.ini \
+  ; sed -i "s|^\(;\)*zlib.output_compression\s*=\s*\(.*\)|zlib.output_compression=On|g" /usr/local/etc/php/php.ini \
   ;
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
