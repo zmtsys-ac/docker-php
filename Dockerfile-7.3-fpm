@@ -90,7 +90,6 @@ RUN set -eux; \
     ; \
   docker-php-ext-enable \
     apcu \
-    brotli \
     igbinary \
     imagick \
     msgpack \
