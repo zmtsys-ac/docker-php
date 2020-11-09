@@ -23,6 +23,7 @@ RUN set -eux; \
     libmsgpackc2 \
     libpng16-16 \
     libsodium23 \
+    libuuid1 \
     libzip4 \
     unzip \
   ; \
@@ -49,6 +50,7 @@ RUN set -eux; \
     libxml2-dev \
     libzip-dev \
     libbz2-dev \
+    uuid-dev \
     zlib1g-dev \
     ${PHP_EXTRA_BUILD_DEPS:-} \
     ; \
@@ -100,6 +102,12 @@ RUN set -eux; \
     ./configure --enable-memcached-igbinary --enable-memcached-json --enable-memcached-session --enable-memcached-sasl --enable-memcached-msgpack; \
     make && make install; \
     cd -; \
+  pecl install --onlyreqdeps --nobuild uuid; \
+    cd "$(pecl config-get temp_dir)/uuid"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
   docker-php-ext-enable \
     apcu \
     event \
@@ -108,6 +116,7 @@ RUN set -eux; \
     msgpack \
     opcache \
     redis \
+    uuid \
     ; \
   cp /usr/bin/envsubst /usr/local/bin/envsubst; \
   apt-mark auto '.*' > /dev/null; \
