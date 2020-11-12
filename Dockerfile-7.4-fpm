@@ -24,6 +24,7 @@ RUN set -eux; \
     libpng16-16 \
     libsodium23 \
     libuuid1 \
+    libxpm4 \
     libzip4 \
     unzip \
   ; \
@@ -48,6 +49,7 @@ RUN set -eux; \
     libssl-dev \
     libwebp-dev \
     libxml2-dev \
+    libxpm-dev \
     libzip-dev \
     libbz2-dev \
     uuid-dev \
@@ -55,6 +57,8 @@ RUN set -eux; \
     ${PHP_EXTRA_BUILD_DEPS:-} \
     ; \
   export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
+    ; \
+  docker-php-ext-configure gd --with-jpeg --with-xpm --with-webp --with-freetype \
     ; \
   docker-php-ext-install -j$(nproc) \
     bcmath \
