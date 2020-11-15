@@ -136,10 +136,10 @@ RUN set -eux; \
   [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark; \
   apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImport=false; \
   rm -rf /tmp/* ~/.pearrc /var/lib/apt/lists/* /var/cache/*; \
-  php --version; \
+  php --version \
+  ; \
   a2enmod \
     buffer \
-    cache \
     expires \
     headers \
     mime_magic \
