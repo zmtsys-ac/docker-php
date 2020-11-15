@@ -18,6 +18,7 @@ RUN set -eux; \
     libevent-pthreads-2.1-6 \
     libhashkit2 \
     libjpeg62-turbo \
+    liblz4-1 \
     libmemcached11 \
     libmemcachedutil2 \
     libmsgpackc2 \
@@ -41,6 +42,7 @@ RUN set -eux; \
     libicu-dev \
     libjpeg-dev \
     libjpeg62-turbo-dev \
+    liblz4-dev \
     libmagickwand-dev \
     libmemcached-dev \
     libmsgpack-dev \
@@ -88,6 +90,12 @@ RUN set -eux; \
     ./configure --with-libbrotli; \
     make && make install; \
     cd -; \
+  pecl install --onlyreqdeps --nobuild lzf; \
+    cd "$(pecl config-get temp_dir)/LZF"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
   pecl install --onlyreqdeps --nobuild event; \
     cd "$(pecl config-get temp_dir)/event"; \
     phpize; \
@@ -97,7 +105,7 @@ RUN set -eux; \
   pecl install --onlyreqdeps --nobuild redis; \
     cd "$(pecl config-get temp_dir)/redis"; \
     phpize; \
-    ./configure --enable-redis-igbinary --enable-redis-json --enable-redis-msgpack; \
+    ./configure --enable-redis-igbinary --enable-redis-json --enable-redis-msgpack --with-liblz4=/usr/include/; \
     make && make install; \
     cd -; \
   pecl install --onlyreqdeps --nobuild memcached; \
@@ -117,6 +125,7 @@ RUN set -eux; \
     event \
     igbinary \
     imagick \
+    lzf \
     msgpack \
     intl \
     opcache \
