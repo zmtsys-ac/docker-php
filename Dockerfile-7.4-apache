@@ -73,6 +73,8 @@ RUN set -eux; \
     sockets \
     zip \
     ; \
+  pecl update-channels \
+  ; \
   pecl install apcu \
     && pecl install igbinary \
     && pecl install imagick \
