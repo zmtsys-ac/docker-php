@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:7-apache
 LABEL description="PHP base image" \
     version="1.0" \
     "com.koalaphils.vendor"="Koala Technologies"
