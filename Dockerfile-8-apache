@@ -12,10 +12,10 @@ RUN set -eux; \
     libbrotli1 \
     libcmph0 \
     libedit2 \
-    libevent-2.1-6 \
-    libevent-extra-2.1-6 \
-    libevent-openssl-2.1-6 \
-    libevent-pthreads-2.1-6 \
+#    libevent-2.1-6 \
+#    libevent-extra-2.1-6 \
+#    libevent-openssl-2.1-6 \
+#    libevent-pthreads-2.1-6 \
     libhashkit2 \
     libjpeg62-turbo \
     liblz4-1 \
@@ -38,7 +38,7 @@ RUN set -eux; \
     libcmph-dev \
     libcurl4-openssl-dev \
     libedit-dev \
-    libevent-dev \
+#    libevent-dev \
     libicu-dev \
     libjpeg-dev \
     libjpeg62-turbo-dev \
@@ -102,12 +102,12 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \
-    cd "$(pecl config-get temp_dir)/event"; \
-    phpize; \
-    ./configure --with-event-core --with-event-extra --with-event-openssl --with-event-pthreads; \
-    make && make install; \
-    cd -; \
+#  git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \
+#    cd "$(pecl config-get temp_dir)/event"; \
+#    phpize; \
+#    ./configure --with-event-core --with-event-extra --with-event-openssl --with-event-pthreads; \
+#    make && make install; \
+#    cd -; \
   pecl install --onlyreqdeps --nobuild redis; \
     cd "$(pecl config-get temp_dir)/redis"; \
     phpize; \
@@ -128,7 +128,7 @@ RUN set -eux; \
     cd -; \
   docker-php-ext-enable \
     apcu \
-    event \
+#    event \
     igbinary \
     imagick \
     lzf \
