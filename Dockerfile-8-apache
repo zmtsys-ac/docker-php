@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8-apache
 LABEL description="PHP base image" \
     version="1.0" \
     "com.koalaphils.vendor"="Koala Technologies"
@@ -76,10 +76,20 @@ RUN set -eux; \
   pecl update-channels \
   ; \
   pecl install apcu \
-    && pecl install igbinary \
-    && pecl install imagick \
-    && pecl install msgpack \
+    ; pecl install igbinary \
     ; \
+  git clone --recursive --depth=1 https://github.com/Imagick/imagick.git $(pecl config-get temp_dir)/imagick; \
+    cd "$(pecl config-get temp_dir)/imagick"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://github.com/msgpack/msgpack-php.git $(pecl config-get temp_dir)/msgpack; \
+    cd "$(pecl config-get temp_dir)/msgpack"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
   git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
     cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
     phpize; \
@@ -92,7 +102,7 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  pecl install --onlyreqdeps --nobuild event; \
+  git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \
     cd "$(pecl config-get temp_dir)/event"; \
     phpize; \
     ./configure --with-event-core --with-event-extra --with-event-openssl --with-event-pthreads; \
