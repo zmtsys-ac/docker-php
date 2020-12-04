@@ -75,11 +75,14 @@ RUN set -eux; \
     ; \
   pecl update-channels \
   ; \
-  pecl install apcu \
-    ; pecl install igbinary \
-    ; \
-  git clone --recursive --depth=1 https://github.com/Imagick/imagick.git $(pecl config-get temp_dir)/imagick; \
-    cd "$(pecl config-get temp_dir)/imagick"; \
+  git clone --recursive --depth=1 https://github.com/krakjoe/apcu.git $(pecl config-get temp_dir)/apcu; \
+    cd "$(pecl config-get temp_dir)/apcu"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://github.com/igbinary/igbinary.git $(pecl config-get temp_dir)/igbinary; \
+    cd "$(pecl config-get temp_dir)/igbinary"; \
     phpize; \
     ./configure; \
     make && make install; \
@@ -90,16 +93,22 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
-    cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
-    phpize; \
-    ./configure --with-libbrotli; \
-    make && make install; \
-    cd -; \
   pecl install --onlyreqdeps --nobuild lzf; \
     cd "$(pecl config-get temp_dir)/LZF"; \
     phpize; \
     ./configure; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://github.com/Imagick/imagick.git $(pecl config-get temp_dir)/imagick; \
+    cd "$(pecl config-get temp_dir)/imagick"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
+    cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
+    phpize; \
+    ./configure --with-libbrotli; \
     make && make install; \
     cd -; \
 #  git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \

@@ -75,15 +75,22 @@ RUN set -eux; \
     ; \
   pecl update-channels \
   ; \
-  pecl install apcu \
-    && pecl install igbinary \
-    && pecl install imagick \
-    && pecl install msgpack \
-    ; \
-  git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
-    cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
+  git clone --recursive --depth=1 https://github.com/krakjoe/apcu.git $(pecl config-get temp_dir)/apcu; \
+    cd "$(pecl config-get temp_dir)/apcu"; \
     phpize; \
-    ./configure --with-libbrotli; \
+    ./configure; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://github.com/igbinary/igbinary.git $(pecl config-get temp_dir)/igbinary; \
+    cd "$(pecl config-get temp_dir)/igbinary"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://github.com/msgpack/msgpack-php.git $(pecl config-get temp_dir)/msgpack; \
+    cd "$(pecl config-get temp_dir)/msgpack"; \
+    phpize; \
+    ./configure; \
     make && make install; \
     cd -; \
   pecl install --onlyreqdeps --nobuild lzf; \
@@ -92,7 +99,19 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  pecl install --onlyreqdeps --nobuild event; \
+  git clone --recursive --depth=1 https://github.com/Imagick/imagick.git $(pecl config-get temp_dir)/imagick; \
+    cd "$(pecl config-get temp_dir)/imagick"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
+    cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
+    phpize; \
+    ./configure --with-libbrotli; \
+    make && make install; \
+    cd -; \
+  git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \
     cd "$(pecl config-get temp_dir)/event"; \
     phpize; \
     ./configure --with-event-core --with-event-extra --with-event-openssl --with-event-pthreads; \
