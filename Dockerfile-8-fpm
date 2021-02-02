@@ -6,6 +6,7 @@ LABEL description="PHP base image" \
 RUN set -eux; \
   apt-get update \
   && apt-get install --no-install-recommends -y \
+    ca-certificates \
     curl \
     git \
     imagemagick \
