@@ -22,6 +22,7 @@ RUN set -eux; \
     liblz4-1 \
     libmemcached11 \
     libmemcachedutil2 \
+    libmpdec2 \
     libmsgpackc2 \
     libpng16-16 \
     libsodium23 \
@@ -46,6 +47,7 @@ RUN set -eux; \
     liblz4-dev \
     libmagickwand-dev \
     libmemcached-dev \
+    libmpdec-dev \
     libmsgpack-dev \
     libpng-dev \
     libsodium-dev \
@@ -76,6 +78,12 @@ RUN set -eux; \
     ; \
   pecl update-channels \
   ; \
+  git clone --recursive --depth=1 https://github.com/php-decimal/ext-decimal.git $(pecl config-get temp_dir)/decimal; \
+    cd "$(pecl config-get temp_dir)/decimal"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
   git clone --recursive --depth=1 https://github.com/krakjoe/apcu.git $(pecl config-get temp_dir)/apcu; \
     cd "$(pecl config-get temp_dir)/apcu"; \
     phpize; \
@@ -138,6 +146,7 @@ RUN set -eux; \
     cd -; \
   docker-php-ext-enable \
     apcu \
+    decimal \
 #    event \
     igbinary \
     imagick \
