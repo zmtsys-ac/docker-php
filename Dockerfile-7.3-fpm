@@ -10,7 +10,7 @@ RUN set -eux; \
     curl \
     git \
     imagemagick \
-    libbrotli1 \
+#    libbrotli1 \
     libcmph0 \
     libedit2 \
     libevent-2.1-6 \
@@ -36,7 +36,7 @@ RUN set -eux; \
   apt-get install -y --no-install-recommends \
     $PHPIZE_DEPS \
     gettext-base \
-    libbrotli-dev \
+#    libbrotli-dev \
     libcmph-dev \
     libcurl4-openssl-dev \
     libedit-dev \
@@ -84,12 +84,6 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://github.com/krakjoe/apcu.git $(pecl config-get temp_dir)/apcu; \
-    cd "$(pecl config-get temp_dir)/apcu"; \
-    phpize; \
-    ./configure; \
-    make && make install; \
-    cd -; \
   git clone --recursive --depth=1 https://github.com/igbinary/igbinary.git $(pecl config-get temp_dir)/igbinary; \
     cd "$(pecl config-get temp_dir)/igbinary"; \
     phpize; \
@@ -108,18 +102,24 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
+  git clone --recursive --depth=1 https://github.com/krakjoe/apcu.git $(pecl config-get temp_dir)/apcu; \
+    cd "$(pecl config-get temp_dir)/apcu"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
   git clone --recursive --depth=1 https://github.com/Imagick/imagick.git $(pecl config-get temp_dir)/imagick; \
     cd "$(pecl config-get temp_dir)/imagick"; \
     phpize; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
-    cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
-    phpize; \
-    ./configure --with-libbrotli; \
-    make && make install; \
-    cd -; \
+#  git clone --recursive --depth=1 https://github.com/kjdev/php-ext-brotli.git $(pecl config-get temp_dir)/php-ext-brotli; \
+#    cd "$(pecl config-get temp_dir)/php-ext-brotli"; \
+#    phpize; \
+#    ./configure --with-libbrotli; \
+#    make && make install; \
+#    cd -; \
   git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \
     cd "$(pecl config-get temp_dir)/event"; \
     phpize; \
@@ -140,6 +140,12 @@ RUN set -eux; \
     cd -; \
   pecl install --onlyreqdeps --nobuild uuid; \
     cd "$(pecl config-get temp_dir)/uuid"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
+  pecl install --onlyreqdeps --nobuild xdebug; \
+    cd "$(pecl config-get temp_dir)/xdebug"; \
     phpize; \
     ./configure; \
     make && make install; \
