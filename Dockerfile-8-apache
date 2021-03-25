@@ -79,12 +79,12 @@ RUN set -eux; \
     ; \
   pecl update-channels \
   ; \
-#  pecl install --onlyreqdeps --nobuild decimal; \
-#    cd "$(pecl config-get temp_dir)/decimal"; \
-#    phpize; \
-#    ./configure; \
-#    make && make install; \
-#    cd -; \
+  pecl install --onlyreqdeps --nobuild decimal; \
+    cd "$(pecl config-get temp_dir)/decimal"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
   git clone --recursive --depth=1 https://github.com/igbinary/igbinary.git $(pecl config-get temp_dir)/igbinary; \
     cd "$(pecl config-get temp_dir)/igbinary"; \
     phpize; \
@@ -153,7 +153,7 @@ RUN set -eux; \
     cd -; \
   docker-php-ext-enable \
     apcu \
-#    decimal \
+    decimal \
 #    event \
     igbinary \
     imagick \
