@@ -182,4 +182,4 @@ RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
-HEALTHCHECK CMD nc -z localhost 9000 || exit 1
+#HEALTHCHECK CMD nc -z localhost 9000 || exit 1
