@@ -184,3 +184,4 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
 #HEALTHCHECK CMD nc -z localhost 9000 || exit 1
+CMD ["php-fpm"]
