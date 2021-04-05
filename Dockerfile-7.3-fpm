@@ -13,10 +13,10 @@ RUN set -eux; \
 #    libbrotli1 \
     libcmph0 \
     libedit2 \
-    libevent-2.1-6 \
-    libevent-extra-2.1-6 \
-    libevent-openssl-2.1-6 \
-    libevent-pthreads-2.1-6 \
+#    libevent-2.1-6 \
+#    libevent-extra-2.1-6 \
+#    libevent-openssl-2.1-6 \
+#    libevent-pthreads-2.1-6 \
     libhashkit2 \
     libjpeg62-turbo \
     liblz4-1 \
@@ -41,7 +41,7 @@ RUN set -eux; \
     libcmph-dev \
     libcurl4-openssl-dev \
     libedit-dev \
-    libevent-dev \
+#    libevent-dev \
     libicu-dev \
     libjpeg-dev \
     libjpeg62-turbo-dev \
@@ -85,13 +85,15 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://github.com/igbinary/igbinary.git $(pecl config-get temp_dir)/igbinary; \
+#  git clone --recursive --depth=1 https://github.com/igbinary/igbinary.git $(pecl config-get temp_dir)/igbinary; \
+  pecl install --onlyreqdeps --nobuild igbinary; \
     cd "$(pecl config-get temp_dir)/igbinary"; \
     phpize; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://github.com/msgpack/msgpack-php.git $(pecl config-get temp_dir)/msgpack; \
+#  git clone --recursive --depth=1 https://github.com/msgpack/msgpack-php.git $(pecl config-get temp_dir)/msgpack; \
+  pecl install --onlyreqdeps --nobuild msgpack; \
     cd "$(pecl config-get temp_dir)/msgpack"; \
     phpize; \
     ./configure; \
@@ -103,13 +105,15 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://github.com/krakjoe/apcu.git $(pecl config-get temp_dir)/apcu; \
+#  git clone --recursive --depth=1 https://github.com/krakjoe/apcu.git $(pecl config-get temp_dir)/apcu; \
+  pecl install --onlyreqdeps --nobuild apcu; \
     cd "$(pecl config-get temp_dir)/apcu"; \
     phpize; \
     ./configure; \
     make && make install; \
     cd -; \
-  git clone --recursive --depth=1 https://github.com/Imagick/imagick.git $(pecl config-get temp_dir)/imagick; \
+#  git clone --recursive --depth=1 https://github.com/Imagick/imagick.git $(pecl config-get temp_dir)/imagick; \
+  pecl install --onlyreqdeps --nobuild imagick; \
     cd "$(pecl config-get temp_dir)/imagick"; \
     phpize; \
     ./configure; \
@@ -121,12 +125,12 @@ RUN set -eux; \
 #    ./configure --with-libbrotli; \
 #    make && make install; \
 #    cd -; \
-  git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \
-    cd "$(pecl config-get temp_dir)/event"; \
-    phpize; \
-    ./configure --with-event-core --with-event-extra --with-event-openssl --with-event-pthreads; \
-    make && make install; \
-    cd -; \
+#  git clone --recursive --depth=1 https://bitbucket.org/osmanov/pecl-event.git $(pecl config-get temp_dir)/event; \
+#    cd "$(pecl config-get temp_dir)/event"; \
+#    phpize; \
+#    ./configure --with-event-core --with-event-extra --with-event-openssl --with-event-pthreads; \
+#    make && make install; \
+#    cd -; \
   pecl install --onlyreqdeps --nobuild redis; \
     cd "$(pecl config-get temp_dir)/redis"; \
     phpize; \
@@ -151,18 +155,25 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
+  pecl install --onlyreqdeps --nobuild ev; \
+    cd "$(pecl config-get temp_dir)/ev"; \
+    phpize; \
+    ./configure; \
+    make && make install; \
+    cd -; \
   docker-php-ext-enable \
     apcu \
     decimal \
-    event \
+    ev \
+#    event \
     igbinary \
     imagick \
-    lzf \
+#    lzf \
     msgpack \
     intl \
     opcache \
     redis \
-    uuid \
+#    uuid \
     ; \
   cp /usr/bin/envsubst /usr/local/bin/envsubst; \
   apt-mark auto '.*' > /dev/null; \
