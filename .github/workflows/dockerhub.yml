@@ -52,7 +52,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           push: true
           tags: koalaphils/php:8-fpm
-      - name: PHP 8 FPM
+      - name: PHP 8 FPM Buster
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -75,7 +75,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           push: true
           tags: koalaphils/php:8-apache
-      - name: PHP 8 Apache
+      - name: PHP 8 Apache Buster
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -98,7 +98,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           push: true
           tags: koalaphils/php:7.4-fpm
-      - name: PHP 7.4 FPM
+      - name: PHP 7.4 FPM Buster
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -121,7 +121,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           push: true
           tags: koalaphils/php:7.4-apache
-      - name: PHP 7.4 Apache
+      - name: PHP 7.4 Apache Buster
         uses: docker/build-push-action@v2
         with:
           context: ./
@@ -144,7 +144,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           push: true
           tags: koalaphils/php:7.3-fpm
-      - name: PHP 7.3 FPM
+      - name: PHP 7.3 FPM Buster
         uses: docker/build-push-action@v2
         with:
           context: ./
