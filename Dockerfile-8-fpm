@@ -1,6 +1,7 @@
 ARG OS
 FROM php:8-fpm-${OS:-bullseye}
 ARG OS
+ENV OS=${OS:-bullseye}
 LABEL description="PHP base image" \
     "com.koalaphils.vendor"="Koala Technologies"
 
