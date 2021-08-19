@@ -1,8 +1,11 @@
-FROM php:7.3-fpm
+ARG OS
+FROM php:7.3-fpm-${OS:-bullseye}
+ARG OS
 LABEL description="PHP base image" \
     "com.koalaphils.vendor"="Koala Technologies"
 
 RUN set -eux; \
+  if [ "${OS}" = "bullseye" ]; then LIBMPDEC="libmpdec3"; else LIBMPDEC="libmpdec2";fi; \
   apt-get update \
   && apt-get install --no-install-recommends -y \
     ca-certificates \
@@ -15,7 +18,7 @@ RUN set -eux; \
     libjpeg62-turbo \
     libmemcached11 \
     libmemcachedutil2 \
-    libmpdec2 \
+    ${LIBMPDEC} \
     libmsgpackc2 \
     libpng16-16 \
     libsodium23 \
