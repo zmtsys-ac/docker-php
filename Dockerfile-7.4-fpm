@@ -65,6 +65,7 @@ RUN set -eux; \
     gettext \
     intl \
     opcache \
+    pcntl \
     pdo_mysql \
     sockets \
     zip \
