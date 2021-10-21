@@ -71,11 +71,11 @@ RUN set -eux; \
     zip \
     ; \
   pecl update-channels \
-  ; \
+    ; \
   git clone --recursive --depth=1 https://github.com/php-decimal/ext-decimal.git $(pecl config-get temp_dir)/decimal; \
     cd "$(pecl config-get temp_dir)/decimal"; \
     phpize; \
-    ./configure; \
+    ./configure --with-libdir=/usr/lib \
     make && make install; \
     cd -; \
   pecl install --onlyreqdeps --nobuild igbinary; \
