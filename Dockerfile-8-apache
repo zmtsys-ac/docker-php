@@ -6,8 +6,8 @@ LABEL description="PHP base image" \
     "com.koalaphils.vendor"="Koala Technologies"
 
 RUN set -eux; \
-  if [ "${OS}" = "bullseye" ]; then LIBMPDEC="libmpdec3"; else LIBMPDEC="libmpdec2";fi; \
   apt-get update \
+  && LIBMPDEC=`apt-cache pkgnames libmpdec | head -1` \
   && apt-get install --no-install-recommends -y \
     ca-certificates \
     curl \
@@ -71,7 +71,7 @@ RUN set -eux; \
     zip \
     ; \
   pecl update-channels \
-  ; \
+    ; \
   pecl install --onlyreqdeps --nobuild decimal; \
     cd "$(pecl config-get temp_dir)/decimal"; \
     phpize; \
