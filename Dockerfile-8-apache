@@ -128,13 +128,7 @@ RUN set -eux; \
     cd -; \
   docker-php-ext-enable \
     apcu \
-    decimal \
     ev \
-    igbinary \
-    imagick \
-    msgpack \
-    opcache \
-    redis \
     ; \
   cp /usr/bin/envsubst /usr/local/bin/envsubst; \
   apt-mark auto '.*' > /dev/null; \

@@ -72,7 +72,7 @@ RUN set -eux; \
     ; \
   pecl update-channels \
   ; \
-  git clone --recursive --depth=1 https://github.com/php-decimal/ext-decimal.git $(pecl config-get temp_dir)/decimal; \
+  pecl install --onlyreqdeps --nobuild decimal; \
     cd "$(pecl config-get temp_dir)/decimal"; \
     phpize; \
     ./configure; \
@@ -128,13 +128,7 @@ RUN set -eux; \
     cd -; \
   docker-php-ext-enable \
     apcu \
-    decimal \
     ev \
-    igbinary \
-    imagick \
-    msgpack \
-    opcache \
-    redis \
     ; \
   cp /usr/bin/envsubst /usr/local/bin/envsubst; \
   apt-mark auto '.*' > /dev/null; \
