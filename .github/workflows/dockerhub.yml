@@ -56,17 +56,17 @@ jobs:
           cache-to: type=gha,mode=max
           push: true
           tags: koalaphils/php:8-apache
-      - name: PHP 8 ZTS
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile-8-zts
-          builder: ${{ steps.buildx.outputs.name }}
-          platforms: linux/amd64,linux/arm64/v8,linux/ppc64le,linux/s390x
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          push: true
-          tags: koalaphils/php:8-zts
+#      - name: PHP 8 ZTS
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: ./
+#          file: ./Dockerfile-8-zts
+#          builder: ${{ steps.buildx.outputs.name }}
+#          platforms: linux/amd64,linux/arm64/v8,linux/ppc64le,linux/s390x
+#          cache-from: type=gha
+#          cache-to: type=gha,mode=max
+#          push: true
+#          tags: koalaphils/php:8-zts
 
 #  php-8-buster:
 #    # The type of runner that the job will run on
