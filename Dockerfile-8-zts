@@ -3,7 +3,7 @@ FROM php:8-zts-${OS:-bullseye}
 ARG OS
 ENV OS=${OS:-bullseye}
 LABEL description="PHP base image" \
-    "com.koalaphils.vendor"="Koala Technologies"
+  "com.zmtsys.vendor"="Zimi Tech Inc."
 
 RUN set -eux; \
   apt-get update \
