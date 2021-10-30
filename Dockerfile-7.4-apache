@@ -7,14 +7,12 @@ LABEL description="PHP base image" \
 
 RUN set -eux; \
   apt-get update \
-  && LIBARGON=`apt-cache pkgnames libargon | grep -v "dev" | sort | tail -1` \
   && LIBMPDEC=`apt-cache pkgnames libmpdec | head -1` \
   && apt-get install --no-install-recommends -y \
     ca-certificates \
     curl \
     git \
     imagemagick \
-    ${LIBARGON} \
     libcmph0 \
     libedit2 \
     libhashkit2 \

@@ -7,7 +7,6 @@ LABEL description="PHP base image" \
 
 RUN set -eux; \
   apt-get update \
-  && LIBARGON=`apt-cache pkgnames libargon | grep -v "dev" | sort | tail -1` \
   && LIBAVIF=`apt-cache pkgnames libavif | head -1` \
   && LIBMPDEC=`apt-cache pkgnames libmpdec | head -1` \
   && apt-get install --no-install-recommends -y \
@@ -15,7 +14,6 @@ RUN set -eux; \
     curl \
     git \
     imagemagick \
-    ${LIBARGON} \
     ${LIBAVIF} \
     libcmph0 \
     libedit2 \
