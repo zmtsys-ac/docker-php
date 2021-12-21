@@ -1,5 +1,5 @@
 ARG OS
-FROM php:8-apache-${OS:-bullseye}
+FROM php:8.0-apache-${OS:-bullseye}
 ARG OS
 ENV OS=${OS:-bullseye}
 LABEL description="PHP base image" \
