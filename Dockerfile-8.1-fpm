@@ -1,5 +1,5 @@
 ARG OS
-FROM php:8.0-cli-${OS:-bullseye}
+FROM php:8.1-fpm-${OS:-bullseye}
 ARG OS
 ENV OS=${OS:-bullseye}
 LABEL description="PHP base image" \
@@ -135,7 +135,13 @@ RUN set -eux; \
     cd -; \
   docker-php-ext-enable \
     apcu \
+    decimal \
     ev \
+    igbinary \
+    imagick \
+    msgpack \
+    opcache \
+    redis \
     ; \
   cp /usr/bin/envsubst /usr/local/bin/envsubst; \
   apt-mark auto '.*' > /dev/null; \
@@ -151,9 +157,12 @@ RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
   ; sed -i "s|^\(;\)*realpath_cache_size\s*=\s*\(.*\)|realpath_cache_size=\2|g" $PHP_INI_DIR/php.ini \
   ; sed -i "s|^\(;\)*realpath_cache_ttl\s*=\s*\(.*\)|realpath_cache_ttl=3600|g" $PHP_INI_DIR/php.ini \
   ; sed -i "s|^\(;\)*zlib.output_compression\s*=\s*\(.*\)|zlib.output_compression=On|g" $PHP_INI_DIR/php.ini \
+  ; sed -i "s/;emergency_restart_threshold\s*=\s*.*/emergency_restart_threshold = 10/g" $PHP_INI_DIR/../php-fpm.conf \
+  ; sed -i "s/;emergency_restart_interval\s*=\s*.*/emergency_restart_interval = 1m/g" $PHP_INI_DIR/../php-fpm.conf \
+  ; sed -i "s/;process_control_timeout\s*=\s*.*/process_control_timeout = 10s/g" $PHP_INI_DIR/../php-fpm.conf \
   ;
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
-CMD ["php" "-a"]
+CMD ["php-fpm"]

@@ -1,5 +1,5 @@
 ARG OS
-FROM php:8.0-cli-${OS:-bullseye}
+FROM php:8.1-apache-${OS:-bullseye}
 ARG OS
 ENV OS=${OS:-bullseye}
 LABEL description="PHP base image" \
@@ -135,7 +135,13 @@ RUN set -eux; \
     cd -; \
   docker-php-ext-enable \
     apcu \
+    decimal \
     ev \
+    igbinary \
+    imagick \
+    msgpack \
+    opcache \
+    redis \
     ; \
   cp /usr/bin/envsubst /usr/local/bin/envsubst; \
   apt-mark auto '.*' > /dev/null; \
@@ -143,6 +149,14 @@ RUN set -eux; \
   apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImport=false; \
   rm -rf /tmp/* ~/.pearrc /var/lib/apt/lists/* /var/cache/*; \
   php --version \
+  ; \
+  a2enmod \
+    buffer \
+    expires \
+    headers \
+    mime_magic \
+    remoteip \
+    rewrite \
   ;
 
 #Security changes
@@ -151,9 +165,12 @@ RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini \
   ; sed -i "s|^\(;\)*realpath_cache_size\s*=\s*\(.*\)|realpath_cache_size=\2|g" $PHP_INI_DIR/php.ini \
   ; sed -i "s|^\(;\)*realpath_cache_ttl\s*=\s*\(.*\)|realpath_cache_ttl=3600|g" $PHP_INI_DIR/php.ini \
   ; sed -i "s|^\(;\)*zlib.output_compression\s*=\s*\(.*\)|zlib.output_compression=On|g" $PHP_INI_DIR/php.ini \
+  ; sed -i "s|^ServerSignature\(.*\)|ServerSignature Off|g" $APACHE_CONFDIR/conf-enabled/security.conf \
+  ; sed -i "s|^ServerTokens\(.*\)|ServerTokens Prod|g" $APACHE_CONFDIR/conf-enabled/security.conf \
+  ; echo "LogFormat \"\\\"%{X-Forwarded-For}i %h\\\" %l %u %t \\\"%r\\\" %>s %O \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\" combined" > $APACHE_CONFDIR/conf-available/log_combined.conf \
+  ; a2enconf log_combined \
   ;
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
-CMD ["php" "-a"]
