@@ -1,5 +1,5 @@
 *
 !.gitignore
-!.github
+!.github/workflows/*
 !Dockerfile*
 !LICENSE
