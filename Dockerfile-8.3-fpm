@@ -103,12 +103,6 @@ RUN set -eux; \
     ./configure; \
     make && make install; \
     cd -; \
-  pecl install --onlyreqdeps --nobuild imagick; \
-    cd "$(pecl config-get temp_dir)/imagick"; \
-    phpize; \
-    ./configure; \
-    make && make install; \
-    cd -; \
   pecl install --onlyreqdeps --nobuild redis; \
     cd "$(pecl config-get temp_dir)/redis"; \
     phpize; \
@@ -138,7 +132,6 @@ RUN set -eux; \
     decimal \
     ev \
     igbinary \
-    imagick \
     msgpack \
     opcache \
     redis \
