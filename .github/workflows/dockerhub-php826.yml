@@ -1,0 +1,82 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build PHP 8.2.6 images
+
+# Controls when the action will run.
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  php-826:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    timeout-minutes: 720
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: Login to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: PHP 8.2.6 FPM
+        uses: docker/build-push-action@v5
+        with:
+          context: ./
+          file: ./Dockerfile-8.2.6-fpm
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/amd64,linux/arm64/v8
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-fpm
+          cache-to: type=registry,mode=max,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-fpm
+          push: true
+          tags: ${{ secrets.DOCKERHUB_ACCOUNT }}/php:8.2.6-fpm
+      - name: PHP 8.2.6 Apache
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile-8.2.6-apache
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/amd64,linux/arm64/v8
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-apache
+          cache-to: type=registry,mode=max,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-apache
+          push: true
+          tags: ${{ secrets.DOCKERHUB_ACCOUNT }}/php:8.2.6-apache
+      - name: PHP 8.2.6 CLI
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile-8.2.6-cli
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/amd64,linux/arm64/v8
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-cli
+          cache-to: type=registry,mode=max,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-cli
+          push: true
+          tags: ${{ secrets.DOCKERHUB_ACCOUNT }}/php:8.2.6-cli
+      - name: PHP 8.2.6 ZTS
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile-8.2.6-cli
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/amd64,linux/arm64/v8
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-zts
+          cache-to: type=registry,mode=max,ref=ghcr.io/${{ github.repository_owner }}/cache/php:8.2.6-zts
+          push: true
+          tags: ${{ secrets.DOCKERHUB_ACCOUNT }}/php:8.2.6-zts
