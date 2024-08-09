@@ -48,7 +48,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_ACCOUNT }}/php:8.3-fpm
       - name: PHP 8.3 Apache
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./
           file: ./Dockerfile-8.3-apache
@@ -59,7 +59,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_ACCOUNT }}/php:8.3-apache
       - name: PHP 8.3 CLI
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./
           file: ./Dockerfile-8.3-cli
@@ -70,7 +70,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_ACCOUNT }}/php:8.3-cli
       - name: PHP 8.3 ZTS
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./
           file: ./Dockerfile-8.3-zts
